@@ -49,7 +49,7 @@ import org.apache.http.entity.StringEntity;
  * Implementation of RestClient interface using Apache http components library
  * @author basvanmeulebrouk
  */
-public class ApacheHttpRestClient implements RestClient {
+public class ApacheHttpRestClient extends AbstractRestClient {
 
     private static final Logger LOGGER = Logger.getLogger(ApacheHttpRestClient.class.getName());
 

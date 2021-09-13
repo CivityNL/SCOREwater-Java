@@ -31,28 +31,35 @@ package nl.civity.rest.client;
 import java.util.Map;
 
 /**
- * RestClient to delete/get/patch/post/put data to/from a HTTP server. 
+ *
  * @author basvanmeulebrouk
  */
-public interface RestClient {
+public abstract class AbstractRestClient implements RestClient {
 
-    String deleteHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes) throws RestClientException;
+    @Override
+    public String deleteHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode) throws RestClientException {
+        return this.deleteHttp(uri, headers, parameters, new int[]{expectedReturnCode});
+    }
+
+    @Override
+    public String getHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode) throws RestClientException {
+        return this.getHttp(uri, headers, parameters, new int[]{expectedReturnCode});
+    }
+
+    @Override
+    public String patchHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException {
+        return this.patchHttp(uri, headers, parameters, new int[]{expectedReturnCode}, body);
+    }
+
+    @Override
+    public String postHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException {
+        return this.postHttp(uri, headers, parameters, new int[]{expectedReturnCode}, body);
+    }
+
+    @Override
+    public String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException {
+        return this.putHttp(uri, headers, parameters, new int[]{expectedReturnCode}, body);
+    }
     
-    String getHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes) throws RestClientException;
-
-    String patchHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException;
-
-    String postHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException;
-
-    String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException;
-
-    String deleteHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode) throws RestClientException;
     
-    String getHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode) throws RestClientException;
-
-    String patchHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException;
-
-    String postHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException;
-
-    String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException;
 }

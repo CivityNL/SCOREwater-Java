@@ -37,11 +37,11 @@ import org.junit.jupiter.api.Test;
  *
  * @author basvanmeulebrouk
  */
-public class ApacheHttpRestClientTest extends RestClientTest {
-
-    private ApacheHttpRestClient instance;
+public class AbstractRestClientTest extends RestClientTest {
     
-    public ApacheHttpRestClientTest() {
+    private ApacheHttpRestClient instance;
+
+    public AbstractRestClientTest() {
     }
 
     @BeforeEach
@@ -50,10 +50,9 @@ public class ApacheHttpRestClientTest extends RestClientTest {
         super.setUp();
         this.instance = new ApacheHttpRestClient();
     }
-
+    
     /**
-     * Test of deleteHttp method, of class ApacheHttpRestClient.
-     *
+     * Test of deleteHttp method, of class AbstractRestClient.
      * @throws java.lang.Exception
      */
     @Test
@@ -61,39 +60,37 @@ public class ApacheHttpRestClientTest extends RestClientTest {
         System.out.println("deleteHttp");
 
         enqueueMockRequest(HELLO_WORLD, 204);
-        String result = instance.deleteHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 202, 204});
+        String result = instance.deleteHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 204);
         assertEquals(EMPTY_STRING, result);
 
         Exception exception = assertThrows(RestClientException.class, () -> {
             enqueueMockRequest(ERROR, 500);
-            instance.deleteHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 202, 204});
+            instance.deleteHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 204);
         });
         assertTrue(exception.getMessage().contains(String.format("The server returned: [%s]", ERROR)));
     }
 
     /**
-     * Test of getHttp method, of class ApacheHttpRestClient.
-     *
+     * Test of getHttp method, of class AbstractRestClient.
      * @throws java.lang.Exception
      */
     @Test
     public void testGetHttp() throws Exception {
-        System.out.println("getHttp");
+            System.out.println("getHttp");
 
         enqueueMockRequest(HELLO_WORLD, 200);
-        String result = instance.getHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200});
+        String result = instance.getHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 200);
         assertEquals(HELLO_WORLD, result);
         
         Exception exception = assertThrows(RestClientException.class, () -> {
             enqueueMockRequest(ERROR, 500);
-            instance.getHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200});
+            instance.getHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 200);
         });
         assertTrue(exception.getMessage().contains(String.format("The server returned: [%s]", ERROR)));
-    }
+}
 
     /**
-     * Test of patchHttp method, of class ApacheHttpRestClient.
-     *
+     * Test of patchHttp method, of class AbstractRestClient.
      * @throws java.lang.Exception
      */
     @Test
@@ -101,23 +98,22 @@ public class ApacheHttpRestClientTest extends RestClientTest {
         System.out.println("patchHttp");
 
         enqueueMockRequest(HELLO_WORLD, 200);
-        String result = instance.patchHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 202, 204}, HELLO_WORLD);
+        String result = instance.patchHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 200, HELLO_WORLD);
         assertEquals(HELLO_WORLD, result);
 
         enqueueMockRequest(HELLO_WORLD, 204);
-        result = instance.patchHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 202, 204}, HELLO_WORLD);
+        result = instance.patchHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 204, HELLO_WORLD);
         assertEquals(EMPTY_STRING, result);
 
         Exception exception = assertThrows(RestClientException.class, () -> {
             enqueueMockRequest(ERROR, 500);
-            instance.patchHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 202, 204}, HELLO_WORLD);
+            instance.patchHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 200, HELLO_WORLD);
         });
         assertTrue(exception.getMessage().contains(String.format("The server returned: [%s]", ERROR)));
     }
 
     /**
-     * Test of postHttp method, of class ApacheHttpRestClient.
-     *
+     * Test of postHttp method, of class AbstractRestClient.
      * @throws java.lang.Exception
      */
     @Test
@@ -125,36 +121,34 @@ public class ApacheHttpRestClientTest extends RestClientTest {
         System.out.println("postHttp");
 
         enqueueMockRequest(HELLO_WORLD, 201);
-        String result = instance.postHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{201}, HELLO_WORLD);
+        String result = instance.postHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 201, HELLO_WORLD);
         assertEquals(HELLO_WORLD, result);
 
         Exception exception = assertThrows(RestClientException.class, () -> {
             enqueueMockRequest(ERROR, 500);
-            instance.postHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{201}, HELLO_WORLD);
+            instance.postHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 201, HELLO_WORLD);
         });
-        assertTrue(exception.getMessage().contains(String.format("The server returned: [%s]", ERROR)));
-    }
+        assertTrue(exception.getMessage().contains(String.format("The server returned: [%s]", ERROR)));    }
 
     /**
-     * Test of putHttp method, of class ApacheHttpRestClient.
-     *
+     * Test of putHttp method, of class AbstractRestClient.
      * @throws java.lang.Exception
      */
     @Test
     public void testPutHttp() throws Exception {
-        System.out.println("putHttp");
+            System.out.println("putHttp");
 
         enqueueMockRequest(HELLO_WORLD, 200);
-        String result = instance.putHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 204}, HELLO_WORLD);
+        String result = instance.putHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 200, HELLO_WORLD);
         assertEquals(HELLO_WORLD, result);  // This should return {"hello": "world"}, but for some reason it does not. 
 
         enqueueMockRequest(HELLO_WORLD, 204);
-        result = instance.putHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 204}, HELLO_WORLD);
+        result = instance.putHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 204, HELLO_WORLD);
         assertEquals(EMPTY_STRING, result);  // This should return {"hello": "world"}, but for some reason it does not. 
 
         Exception exception = assertThrows(RestClientException.class, () -> {
             enqueueMockRequest(ERROR, 500);
-            instance.putHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), new int[]{200, 204}, HELLO_WORLD);
+            instance.putHttp(this.getMockWebServer().url("/").toString(), new HashMap<>(), new HashMap<>(), 200, HELLO_WORLD);
         });
         assertTrue(exception.getMessage().contains(String.format("The server returned: [%s]", ERROR)));
     }
