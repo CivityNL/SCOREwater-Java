@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Civity
+ * Copyright (c) 2021, Civity BV Zeist
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,8 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.http.Header;
+import org.apache.http.ParseException;
 import org.apache.http.entity.StringEntity;
 
 /**
@@ -131,28 +133,13 @@ public class ApacheHttpRestClient extends AbstractRestClient {
         return result;
     }
 
-    private String checkResponse(CloseableHttpClient httpClient, HttpRequestBase httpRequest, int[] expectedReturnCodes) throws IOException, RestClientException {
-        String result = "";
+    protected String checkResponse(CloseableHttpClient httpClient, HttpRequestBase httpRequest, int[] expectedReturnCodes) throws IOException, RestClientException {
+        String result;
 
         try (CloseableHttpResponse response = httpClient.execute(httpRequest)) {
-            int responseCode = response.getStatusLine().getStatusCode();
-
-            if (response.getEntity() != null) {
-                result = (EntityUtils.toString(response.getEntity()));
-            }
-
-            boolean found = false;
-
-            for (Integer expectedReturnCode : expectedReturnCodes) {
-                if (responseCode == expectedReturnCode) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                throw new RestClientException(String.format("Error [%s] executing request to [%s]. The server returned: [%s]", response.getStatusLine(), httpRequest.getURI().toASCIIString(), result));
-            }
+            result = getResponse(response);
+            
+            checkResponseCode(response, expectedReturnCodes, httpRequest, result);
 
             LOGGER.log(Level.INFO, "Successfully executed HTTP request: {0}", httpRequest.getURI().toASCIIString());
         }
@@ -160,7 +147,34 @@ public class ApacheHttpRestClient extends AbstractRestClient {
         return result;
     }
 
-    private void setHeaders(HttpRequestBase httpRequest, Map<String, String> headers) {
+    protected String getResponse(final CloseableHttpResponse response) throws IOException, ParseException {
+        String result = "";
+        
+        if (response.getEntity() != null) {
+            result = (EntityUtils.toString(response.getEntity()));
+        }
+        
+        return result;
+    }
+
+    protected void checkResponseCode(final CloseableHttpResponse response, int[] expectedReturnCodes, HttpRequestBase httpRequest, String result) throws RestClientException {
+        int responseCode = response.getStatusLine().getStatusCode();
+        
+        boolean found = false;
+        
+        for (Integer expectedReturnCode : expectedReturnCodes) {
+            if (responseCode == expectedReturnCode) {
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            throw new RestClientException(String.format("Error [%s] executing request to [%s]. The server returned: [%s]", response.getStatusLine(), httpRequest.getURI().toASCIIString(), result));
+        }
+    }
+
+    protected void setHeaders(HttpRequestBase httpRequest, Map<String, String> headers) {
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -168,7 +182,7 @@ public class ApacheHttpRestClient extends AbstractRestClient {
         }
     }
 
-    private URI buildURI(String uri, Map<String, String> parameters) throws URISyntaxException {
+    protected URI buildURI(String uri, Map<String, String> parameters) throws URISyntaxException {
         URIBuilder result = new URIBuilder(uri);
 
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
@@ -180,7 +194,7 @@ public class ApacheHttpRestClient extends AbstractRestClient {
         return result.build();
     }
 
-    private String execute(HttpRequestBase httpRequest, int[] expectedReturnCodes) throws RestClientException {
+    protected String execute(HttpRequestBase httpRequest, int[] expectedReturnCodes) throws RestClientException {
         String result;
 
         try {
@@ -194,7 +208,7 @@ public class ApacheHttpRestClient extends AbstractRestClient {
         return result;
     }
 
-    private HttpEntity bodyToHttpEntity(String body) throws RestClientException {
+    protected HttpEntity bodyToHttpEntity(String body) throws RestClientException {
         try {
             return new StringEntity(body);
         } catch (UnsupportedEncodingException ex) {
