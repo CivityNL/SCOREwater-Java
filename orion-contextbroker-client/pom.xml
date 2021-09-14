@@ -4,7 +4,7 @@
     
     <groupId>nl.civity</groupId>
     <artifactId>orion-contextbroker-client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     
     <dependencies>
@@ -14,14 +14,14 @@
             <version>20201115</version>
         </dependency>
         <dependency>
-            <groupId>nl.civity</groupId>
-            <artifactId>civity-rest-client</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.locationtech.jts</groupId>
             <artifactId>jts-core</artifactId>
             <version>1.18.2</version>
+        </dependency>
+        <dependency>
+            <groupId>nl.civity</groupId>
+            <artifactId>civity-rest-client</artifactId>
+            <version>1.1</version>
         </dependency>
 
         <dependency>
