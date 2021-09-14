@@ -1,0 +1,145 @@
+[{
+        "id": "70b3d580a010f2ca",
+        "type": "WaterQualityObserved",
+        "dataProvider": {
+            "type": "Text",
+            "value": "City of Gothenburg",
+            "metadata": {}
+        },
+        "dateCreated": {
+            "type": "DateTime",
+            "value": "2021-09-10T18:24:56.00Z",
+            "metadata": {}
+        },
+        "dateModified": {
+            "type": "DateTime",
+            "value": "2021-09-10T18:24:56.00Z",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2021-09-10T18:24:56.00Z",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [12.043927, 57.821004]
+            },
+            "metadata": {}
+        },
+        "temperature": {
+            "type": "Number",
+            "value": 17.9375,
+            "metadata": {}
+        }
+    }, {
+        "id": "70b3d580a010f260",
+        "type": "WaterQualityObserved",
+        "dataProvider": {
+            "type": "Text",
+            "value": "City of Gothenburg",
+            "metadata": {}
+        },
+        "dateCreated": {
+            "type": "DateTime",
+            "value": "2021-09-10T17:32:23.00Z",
+            "metadata": {}
+        },
+        "dateModified": {
+            "type": "DateTime",
+            "value": "2021-09-10T17:32:23.00Z",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2021-09-10T17:32:23.00Z",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [12.07727, 57.806266]
+            },
+            "metadata": {}
+        },
+        "temperature": {
+            "type": "Number",
+            "value": 19.75,
+            "metadata": {}
+        }
+    }, {
+        "id": "70b3d580a010f25f",
+        "type": "WaterQualityObserved",
+        "dataProvider": {
+            "type": "Text",
+            "value": "City of Gothenburg",
+            "metadata": {}
+        },
+        "dateCreated": {
+            "type": "DateTime",
+            "value": "2021-09-10T17:45:23.00Z",
+            "metadata": {}
+        },
+        "dateModified": {
+            "type": "DateTime",
+            "value": "2021-09-10T17:45:23.00Z",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2021-09-10T17:45:23.00Z",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [12.062216, 57.748838]
+            },
+            "metadata": {}
+        },
+        "temperature": {
+            "type": "Number",
+            "value": 18.9375,
+            "metadata": {}
+        }
+    }, {
+        "id": "70b3d580a010f2be",
+        "type": "WaterQualityObserved",
+        "dataProvider": {
+            "type": "Text",
+            "value": "City of Gothenburg",
+            "metadata": {}
+        },
+        "dateCreated": {
+            "type": "DateTime",
+            "value": "2021-09-10T18:43:12.00Z",
+            "metadata": {}
+        },
+        "dateModified": {
+            "type": "DateTime",
+            "value": "2021-09-10T18:43:12.00Z",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2021-09-10T18:43:12.00Z",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [12.048607, 57.708525]
+            },
+            "metadata": {}
+        },
+        "temperature": {
+            "type": "Number",
+            "value": 19.25,
+            "metadata": {}
+        }
+    }]

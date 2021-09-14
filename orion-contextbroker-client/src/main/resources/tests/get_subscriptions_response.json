@@ -1,0 +1,29 @@
+[
+    {
+        "id": "613f3af5d5213490de5302a4",
+        "description": "Subscription to demonstrate the ContextBroker publish/subscribe mechanism",
+        "status": "active",
+        "subject": {
+            "entities": [
+                {
+                    "idPattern": ".*",
+                    "type": "MyDataType"
+                }
+            ],
+            "condition": {
+                "attrs": []
+            }
+        },
+        "notification": {
+            "timesSent": 1,
+            "lastNotification": "2021-09-13T11:50:13.00Z",
+            "attrs": [],
+            "attrsFormat": "normalized",
+            "http": {
+                "url": "https://tst-fiwarelab-datasink.fiware-lab.nl/lab/1.0/demo-context-broker-callback"
+            },
+            "lastSuccess": "2021-09-13T11:50:14.00Z",
+            "lastSuccessCode": 403
+        }
+    }
+]
