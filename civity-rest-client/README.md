@@ -9,4 +9,4 @@ cd SCOREwater-Java/civity-rest-client
 mvn clean install
 ```
 
-The library should now be available in your loal Maven repository. 
+The library should now be available in your local Maven repository. 
