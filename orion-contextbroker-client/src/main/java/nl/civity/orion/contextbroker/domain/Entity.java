@@ -54,6 +54,7 @@ public class Entity {
 
     private static final Logger LOGGER = Logger.getLogger(Entity.class.getName());
 
+    protected static final String ID = "id";
     protected static final String TYPE = "type";
     protected static final String VALUE = "value";
 
@@ -111,7 +112,7 @@ public class Entity {
     public JSONObject toJSON() {
         JSONObject result = new JSONObject();
 
-        result.put("id", this.id);
+        result.put(ID, this.id);
 
         result.put(TYPE, this.type);
 
@@ -128,7 +129,7 @@ public class Entity {
     }
 
     public static Entity fromJSON(JSONObject jsonObject) {
-        String id = jsonObject.getString("id");
+        String id = jsonObject.getString(ID);
 
         String type = "unknown";
         if (jsonObject.has(TYPE)) {
