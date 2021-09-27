@@ -33,7 +33,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- *
+ * Based on this tutorial: https://www.baeldung.com/spring-mocking-webclient
  * @author basvanmeulebrouk
  */
 public class RestClientTest {
