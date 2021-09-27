@@ -1,0 +1,15 @@
+[
+    {
+        "devEui": "70b3d580a010f25f",
+        "sensorType": "tem_lab_14ns",
+        "timestamp": "2021-05-12T07:27:10.226Z",
+        "payload": "01fd8c369c100190",
+        "spreadingFactor": "9",
+        "rssi": "-54",
+        "snr": "7.5",
+        "gatewayIdentifier": "405",
+        "fPort": "3",
+        "latitude": 57.749029,
+        "longitude": 12.064882
+    }
+]

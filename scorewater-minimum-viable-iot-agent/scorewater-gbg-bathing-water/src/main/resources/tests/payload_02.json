@@ -1,0 +1,13 @@
+[{
+        "devEui": "70b3d580a010f2ca",
+        "sensorType": "tem_lab_14ns",
+        "timestamp": "2021-05-26T16:45:50.576Z",
+        "payload": "01fc8c3e9c1000e1",
+        "spreadingFactor": "9",
+        "rssi": "-116",
+        "snr": "-9.2",
+        "gatewayIdentifier": "184",
+        "fPort": "3",
+        "latitude": 57.821004,
+        "longitude": 12.043927
+    }]
