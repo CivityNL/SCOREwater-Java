@@ -43,7 +43,6 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.http.Header;
 import org.apache.http.ParseException;
 import org.apache.http.entity.StringEntity;
 
