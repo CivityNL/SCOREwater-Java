@@ -20,6 +20,12 @@ public abstract class MqttRouteBuilder extends RouteBuilder {
     @Value("${ckan.application.id}")
     private String applicationId;
 
+    @Value("${fiware.publish.contextbroker.url}")
+    private String contextBrokerUrl;
+    
+    @Value("${fiware.publish.contextbroker.service}")
+    private String contextBrokerService;
+
     @Value("${mqtt.broker.url}")
     private String brokerUrl;
 
@@ -86,5 +92,13 @@ public abstract class MqttRouteBuilder extends RouteBuilder {
                 queueBrokerURL,
                 concurrentConsumers
         );
+    }
+
+    public String getContextBrokerUrl() {
+        return contextBrokerUrl;
+    }
+
+    public String getContextBrokerService() {
+        return contextBrokerService;
     }
 }
