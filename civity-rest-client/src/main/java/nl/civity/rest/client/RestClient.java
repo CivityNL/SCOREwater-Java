@@ -31,28 +31,148 @@ package nl.civity.rest.client;
 import java.util.Map;
 
 /**
- * RestClient to delete/get/patch/post/put data to/from a HTTP server. 
+ * RestClient interface to delete/get/patch/post/put data to/from a HTTP server. 
  * @author basvanmeulebrouk
  */
 public interface RestClient {
 
+    /**
+     * Delete HTTP request with a list of possible return codes
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCodes
+     * @return
+     * @throws RestClientException 
+     */
     String deleteHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes) throws RestClientException;
     
+    /**
+     * Get HTTP request with a list of possible return codes
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCodes
+     * @return
+     * @throws RestClientException 
+     */
     String getHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes) throws RestClientException;
 
+    /** 
+     * Patch HTTP request with a String payload and a list of possible return codes
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCodes
+     * @param body
+     * @return
+     * @throws RestClientException 
+     */
     String patchHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException;
 
+    /**
+     * Post HTTP request with a String payload and a list of possible return codes
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCodes
+     * @param body
+     * @return
+     * @throws RestClientException 
+     */
     String postHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException;
 
+    /**
+     * Post HTTP request with form data payload and a list of possible return codes
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCodes
+     * @param formData
+     * @return
+     * @throws RestClientException 
+     */
+    String postHttpFormData(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, Map<String, String> formData) throws RestClientException;
+
+    /**
+     * Put HTTP request with a STring payload and a list of possible return codes
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCodes
+     * @param body
+     * @return
+     * @throws RestClientException 
+     */
     String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException;
 
+    /** 
+     * Delete HTTP request with one possible return code
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCode
+     * @return
+     * @throws RestClientException 
+     */
     String deleteHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode) throws RestClientException;
     
+    /**
+     * Get HTTP request with one possible return code
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCode
+     * @return
+     * @throws RestClientException 
+     */
     String getHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode) throws RestClientException;
 
+    /**
+     * Patch HTTP request with one a String payload and possible return code
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCode
+     * @param body
+     * @return
+     * @throws RestClientException 
+     */
     String patchHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException;
 
+    /**
+     * Post HTTP request with a String payload and one possible return code
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCode
+     * @param body
+     * @return
+     * @throws RestClientException 
+     */
     String postHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException;
 
+    /**
+     * Post HTTP request with a form data payload and one possible return code
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCode
+     * @param formData
+     * @return
+     * @throws RestClientException 
+     */
+    String postHttpFormData(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, Map<String, String> formData) throws RestClientException;
+
+    /**
+     * Put HTTP request with a String payload and one possible return code
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCode
+     * @param body
+     * @return
+     * @throws RestClientException 
+     */
     String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException;
 }

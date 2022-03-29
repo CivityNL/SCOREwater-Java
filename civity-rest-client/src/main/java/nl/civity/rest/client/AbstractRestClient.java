@@ -57,6 +57,11 @@ public abstract class AbstractRestClient implements RestClient {
     }
 
     @Override
+    public String postHttpFormData(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, Map<String, String> formData) throws RestClientException {
+        return this.postHttpFormData(uri, headers, parameters, new int[]{expectedReturnCode}, formData);
+    }
+
+    @Override
     public String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException {
         return this.putHttp(uri, headers, parameters, new int[]{expectedReturnCode}, body);
     }
