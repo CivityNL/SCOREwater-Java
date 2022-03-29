@@ -1,0 +1,18 @@
+{
+    "id": "urn:uuid:77a90d86-2678-11ec-9621-0242ac130002",
+    "lon": 5.7364932,
+    "lat": 52.9783389,
+    "values" : [
+        {
+            "timestamp": "2021-10-06T07:40:26Z",
+            "turbidity": {
+                "value": 26.7,
+                "unit": "fnu"
+            },
+            "water_level": {
+                "value": 98.0,
+                "unit": "cm"
+            }
+        }
+    ]
+}
