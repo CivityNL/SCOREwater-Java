@@ -14,6 +14,6 @@ The Turbinator IoT agent uses a somewhat different approach with a similar resul
 
 - Since data is stored "as is", we can always go back to the original data to adapt the harmonization (for instance fix an issue in a formula which might be used to convert raw to harmonized information). This is the most important advantage of this approach;
 - The raw information is not as "blown up" as the harmonized information. The view can easily incorporate static information which does not change between measurements (for instance a location or an address) which you would rather not duplicate for each measurement;
-- Storing data in the time series database is dependant on the proper functioning of the ContextBroker and Draco, reducing the rsik of losing data. 
+- Storing data in the time series database is not dependant on the proper functioning of the ContextBroker and Draco, reducing the risk of losing data should one of these unexpectedly be out of order. 
 
 ![Turbinator setup](turbinator_setup.png)
