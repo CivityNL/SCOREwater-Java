@@ -55,7 +55,16 @@ CREATE OR REPLACE VIEW water_quality_observed_wipawoik AS (
         NULL::FLOAT AS no3,
         NULL::TIMESTAMP WITHOUT TIME ZONE AS no3_timestamp
     FROM turbinator_measurement_wipawoik AS a 
-    JOIN turbinator_location_wipawoik AS b ON a.entity_id = b.entity_id
+    JOIN (
+        SELECT 
+            entity_id, 
+            recording_timestamp, 
+            LEAD(recording_timestamp) OVER (PARTITION BY entity_id ORDER BY recording_timestamp) AS next_recording_timestamp,
+            lon,
+            lat
+        FROM public.turbinator_location_wipawoik
+    ) AS b 
+    ON a.entity_id = b.entity_id AND a.recording_timestamp >= b.recording_timestamp AND (a.recording_timestamp < b.next_recording_timestamp OR b.next_recording_timestamp IS NULL)
 );
 
 ALTER TABLE water_quality_observed_wipawoik OWNER TO turbinator;
