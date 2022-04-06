@@ -4,8 +4,8 @@ An IoT agents picks up proprietery data fron an IoT device (for example a sensor
 
 ## SCOREwater GBG bathing water temperature
 
-![GBG bathing water temperature](./gbg_setup.png)
+![GBG bathing water temperature](gbg_setup.png)
 
 ## SCOREwater Turbinator
 
-![Turbinator setup](./turbinator_setup.png)
+![Turbinator setup](turbinator_setup.png)
