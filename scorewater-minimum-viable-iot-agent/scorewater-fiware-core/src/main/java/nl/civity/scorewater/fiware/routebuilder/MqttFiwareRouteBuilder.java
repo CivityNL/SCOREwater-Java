@@ -7,24 +7,13 @@ package nl.civity.scorewater.fiware.routebuilder;
 
 import java.util.logging.Logger;
 import org.apache.camel.LoggingLevel;
-import org.apache.camel.Processor;
-import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
  * @author basvanmeulebrouk
  */
-public abstract class MqttRouteBuilder extends RouteBuilder {
-
-    @Value("${ckan.application.id}")
-    private String applicationId;
-
-    @Value("${fiware.publish.contextbroker.url}")
-    private String contextBrokerUrl;
-    
-    @Value("${fiware.publish.contextbroker.service}")
-    private String contextBrokerService;
+public abstract class MqttFiwareRouteBuilder extends FiwareRouteBuilder {
 
     @Value("${mqtt.broker.url}")
     private String brokerUrl;
@@ -41,16 +30,7 @@ public abstract class MqttRouteBuilder extends RouteBuilder {
     @Value("${mqtt.broker.topic}")
     private String topic;
 
-    @Value("${spring.activemq.broker-url}")
-    private String queueBrokerURL;
-
-    @Value("${spring.activemq.concurrentconsumers}")
-    private String concurrentConsumers;
-
-    @Value("${spring.activemq.queue-name-prefix}")
-    private String queueNamePrefix;
-
-    private static final Logger LOGGER = Logger.getLogger(MqttRouteBuilder.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MqttFiwareRouteBuilder.class.getName());
 
     @Override
     public void configure() throws Exception {
@@ -66,39 +46,8 @@ public abstract class MqttRouteBuilder extends RouteBuilder {
         from(getQueueFromEndPoint(String.format("incoming_mqtt_entities_%s", routeId)))
                 .log(LoggingLevel.INFO, "MQTT entities, process")
                 .process(this.createProcessor())
-                .onException(MqttRouteBuilderException.class)
+                .onException(FiwareRouteBuilderException.class)
                 .log(LoggingLevel.INFO, "MQTT entities, error")
                 .to(getQueueToEndPoint("incoming_mqtt_entities_error"));
-    }
-
-    protected abstract Processor createProcessor();
-
-    protected String getQueueToEndPoint(String routeBuilderIdentifier) {
-        return String.format(
-                "activemq:queue:%s_%s_%s_queue?disableReplyTo=true&preserveMessageQos=true", //?brokerURL=%s&exchangePattern=InOnly&autoStartup=false&trustAllPackages=true", 
-                this.queueNamePrefix,
-                this.applicationId,
-                routeBuilderIdentifier,
-                queueBrokerURL
-        );
-    }
-
-    protected String getQueueFromEndPoint(String routeBuilderIdentifier) {
-        return String.format(
-                "activemq:queue:%s_%s_%s_queue", // ?brokerURL=%s&concurrentConsumers=%s", 
-                this.queueNamePrefix,
-                this.applicationId,
-                routeBuilderIdentifier,
-                queueBrokerURL,
-                concurrentConsumers
-        );
-    }
-
-    public String getContextBrokerUrl() {
-        return contextBrokerUrl;
-    }
-
-    public String getContextBrokerService() {
-        return contextBrokerService;
     }
 }

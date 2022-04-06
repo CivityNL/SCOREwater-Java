@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Civity BV Zeist
+ * Copyright (c) 2022, Civity BV Zeist
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,11 +29,13 @@
 package nl.civity.scorewater.fiware.datamodel;
 
 import java.io.Serializable;
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author basvanmeulebrouk
  */
+@Embeddable
 public class Location implements Serializable {
 
     private double lon;

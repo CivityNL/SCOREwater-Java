@@ -32,13 +32,18 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  *
  * @author basvanmeulebrouk
  */
+@MappedSuperclass
 public class Observed  implements Serializable, Comparable<Observed> {
 
+    @Id
     ObservedIdentifier primaryKey;
     
     // To be able to query for DATE(recordingTime)
@@ -88,6 +93,7 @@ public class Observed  implements Serializable, Comparable<Observed> {
     // - Optional
     protected String source;
 
+    @Transient
     protected DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_INSTANT;
 
     public Observed() {

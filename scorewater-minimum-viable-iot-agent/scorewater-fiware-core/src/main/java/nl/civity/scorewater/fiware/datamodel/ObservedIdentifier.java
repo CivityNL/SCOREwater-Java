@@ -31,11 +31,13 @@ package nl.civity.scorewater.fiware.datamodel;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author basvanmeulebrouk
  */
+@Embeddable
 public class ObservedIdentifier  implements Serializable, Comparable {
     
     private String entityId;

@@ -31,9 +31,13 @@ package nl.civity.scorewater.fiware.datamodel.environment;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import nl.civity.scorewater.fiware.datamodel.Location;
 import nl.civity.scorewater.fiware.datamodel.Observed;
 
+@Entity
 public class WaterQualityObserved extends Observed implements Serializable {
 
     // Temperature.
@@ -94,7 +98,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: Formazin Turbidity Unit (FTU).
     // - Optional
     private Double turbidity;
-    private ZonedDateTime turbidityZonedDateTime;
+    private ZonedDateTime turbidityTimestamp;
 
     // Amount of salts dissolved in water.
     // - Attribute type: Property. Number
@@ -104,7 +108,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: Parts per thousand (ppt).
     // - Optional
     private Double salinity;
-    private ZonedDateTime salinityZonedDateTime;
+    private ZonedDateTime salinityTimestamp;
 
     // Acidity or basicity of an aqueous solution.
     // - Attribute type: Property. Number
@@ -114,7 +118,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: Negative of the logarithm to base 10 of the activity of the hydrogen ion.
     // - Optional
     private Double ph;
-    private ZonedDateTime phZonedDateTime;
+    private ZonedDateTime phTimestamp;
 
     // Oxidation-Reduction potential.
     // - Attribute type: Property. Number
@@ -124,7 +128,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: millivolts (mV).
     // - Optional
     private Double orp;
-    private ZonedDateTime orpZonedDateTime;
+    private ZonedDateTime orpTimestamp;
 
     // An array of strings containing details (see format below) about extra measurands provided by this observation.
     // - Attribute type: Property. List of Text.
@@ -145,6 +149,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: milligrams per liter (mg/L).
     // - Optional
     private Double o2;
+    @Column(name = "o2_timestamp")
     private ZonedDateTime o2Timestamp;
 
     // Chla : Concentration of chlorophyll A.
@@ -185,6 +190,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: milligrams per liter (mg/L).
     // - Optional
     private Double nh4;
+    @Column(name = "nh4_timestamp")
     private ZonedDateTime nh4Timestamp;
 
     // Concentration of ammonia.
@@ -195,6 +201,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: milligrams per liter (mg/L).
     // - Optional
     private Double nh3;
+    @Column(name = "nh3_timestamp")
     private ZonedDateTime nh3Timestamp;
 
     // Concentration of chlorides.
@@ -215,9 +222,11 @@ public class WaterQualityObserved extends Observed implements Serializable {
     // - Default unit: milligrams per liter (mg/L).
     // - Optional
     private Double no3;
+    @Column(name = "no3_timestamp")
     private ZonedDateTime no3Timestamp;
 
     // To convert NO3-N to NO3, multiply by 4.427, to convert NO3 to NO3-N devide by 4.427
+    @Transient
     private final Double no3NToNo3Multiplier = 4.427; // source: https://support.hach.com/app/answers/answer_view/a_id/1000316/~/what-is-the-factor-to-convert-from-no3-n-and-no3%3F-
 
     public WaterQualityObserved() {
@@ -360,16 +369,16 @@ public class WaterQualityObserved extends Observed implements Serializable {
     public void setTurbidity(Double turbidity, ZonedDateTime turbidityZonedDateTime) {
         setDateModified();
         this.turbidity = turbidity;
-        this.turbidityZonedDateTime = turbidityZonedDateTime;
+        this.turbidityTimestamp = turbidityZonedDateTime;
     }
 
-    public ZonedDateTime getTurbidityZonedDateTime() {
-        return turbidityZonedDateTime;
+    public ZonedDateTime getTurbidityTimestamp() {
+        return turbidityTimestamp;
     }
 
-    public void setTurbidityZonedDateTime(ZonedDateTime turbidityZonedDateTime) {
+    public void setTurbidityTimestamp(ZonedDateTime turbidityTimestamp) {
         setDateModified();
-        this.turbidityZonedDateTime = turbidityZonedDateTime;
+        this.turbidityTimestamp = turbidityTimestamp;
     }
 
     public Double getSalinity() {
@@ -384,16 +393,16 @@ public class WaterQualityObserved extends Observed implements Serializable {
     public void setSalinity(Double salinity, ZonedDateTime salinityZonedDateTime) {
         setDateModified();
         this.salinity = salinity;
-        this.salinityZonedDateTime = salinityZonedDateTime;
+        this.salinityTimestamp = salinityZonedDateTime;
     }
 
-    public ZonedDateTime getSalinityZonedDateTime() {
-        return salinityZonedDateTime;
+    public ZonedDateTime getSalinityTimestamp() {
+        return salinityTimestamp;
     }
 
-    public void setSalinityZonedDateTime(ZonedDateTime salinityZonedDateTime) {
+    public void setSalinityTimestamp(ZonedDateTime salinityTimestamp) {
         setDateModified();
-        this.salinityZonedDateTime = salinityZonedDateTime;
+        this.salinityTimestamp = salinityTimestamp;
     }
 
     public Double getPh() {
@@ -408,16 +417,16 @@ public class WaterQualityObserved extends Observed implements Serializable {
     public void setpH(Double pH, ZonedDateTime pHZonedDateTime) {
         setDateModified();
         this.ph = pH;
-        this.phZonedDateTime = pHZonedDateTime;
+        this.phTimestamp = pHZonedDateTime;
     }
 
-    public ZonedDateTime getPhZonedDateTime() {
-        return phZonedDateTime;
+    public ZonedDateTime getPhTimestamp() {
+        return phTimestamp;
     }
 
-    public void setPhZonedDateTime(ZonedDateTime phZonedDateTime) {
+    public void setPhTimestamp(ZonedDateTime phTimestamp) {
         setDateModified();
-        this.phZonedDateTime = phZonedDateTime;
+        this.phTimestamp = phTimestamp;
     }
 
     public Double getOrp() {
@@ -432,16 +441,16 @@ public class WaterQualityObserved extends Observed implements Serializable {
     public void setOrp(Double orp, ZonedDateTime orpZonedDateTime) {
         setDateModified();
         this.orp = orp;
-        this.orpZonedDateTime = orpZonedDateTime;
+        this.orpTimestamp = orpZonedDateTime;
     }
 
-    public ZonedDateTime getOrpZonedDateTime() {
-        return orpZonedDateTime;
+    public ZonedDateTime getOrpTimestamp() {
+        return orpTimestamp;
     }
 
-    public void setOrpZonedDateTime(ZonedDateTime orpZonedDateTime) {
+    public void setOrpTimestamp(ZonedDateTime orpTimestamp) {
         setDateModified();
-        this.orpZonedDateTime = orpZonedDateTime;
+        this.orpTimestamp = orpTimestamp;
     }
 
     public String[] getMeasurand() {
@@ -653,7 +662,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     public String toString() {
         StringBuilder result = new StringBuilder();
 
-        result.append(this.getType()).append("{").append("temperature=").append(temperature).append(", temperatureTimestamp=").append(temperatureTimestamp).append(", conductivity=").append(conductivity).append(", conductivityTimestamp=").append(conductivityTimestamp).append(", conductance=").append(conductance).append(", conductanceTimestamp=").append(conductanceTimestamp).append(", tss=").append(tss).append(", tssTimestamp=").append(tssTimestamp).append(", tds=").append(tds).append(", tdsTimestamp=").append(tdsTimestamp).append(", turbidity=").append(turbidity).append(", turbidityZonedDateTime=").append(turbidityZonedDateTime).append(", salinity=").append(salinity).append(", salinityZonedDateTime=").append(salinityZonedDateTime).append(", pH=").append(ph).append(", pHZonedDateTime=").append(phZonedDateTime).append(", orp=").append(orp).append(", orpZonedDateTime=").append(orpZonedDateTime).append(", measurand=").append(Arrays.toString(measurand)).append(", O2=").append(o2).append(", O2Timestamp=").append(o2Timestamp).append(", Chla=").append(chla).append(", ChlaTimestamp=").append(chlaTimestamp).append(", PE=").append(pe).append(", PETimestamp=").append(peTimestamp).append(", PC=").append(pc).append(", PCTimestamp=").append(pcTimestamp).append(", NH4=").append(nh4).append(", NH4Timestamp=").append(nh4Timestamp).append(", NH3=").append(nh3).append(", NH3Timestamp=").append(nh3Timestamp).append(", Cl=").append(cl).append(", ClTimestamp=").append(clTimestamp).append(", NO3=").append(no3).append(", NO3Timestamp=").append(no3Timestamp).append(", id='").append(this.getPrimaryKey().getEntityId()).append("', type=").append(type).append(", dataProvider='").append(dataProvider).append("', dateModified=").append(dateModified).append(", dateCreated=").append(dateCreated).append(", location=").append(location).append(", address='").append(address).append("', refPointOfInterest='").append(refPointOfInterest).append("', dateObserved=").append(this.getPrimaryKey().getRecordingTimestamp()).append(", source='").append(source).append("', dateTimeFormatter=").append(dateTimeFormatter).append('}');
+        result.append(this.getType()).append("{").append("temperature=").append(temperature).append(", temperatureTimestamp=").append(temperatureTimestamp).append(", conductivity=").append(conductivity).append(", conductivityTimestamp=").append(conductivityTimestamp).append(", conductance=").append(conductance).append(", conductanceTimestamp=").append(conductanceTimestamp).append(", tss=").append(tss).append(", tssTimestamp=").append(tssTimestamp).append(", tds=").append(tds).append(", tdsTimestamp=").append(tdsTimestamp).append(", turbidity=").append(turbidity).append(", turbidityZonedDateTime=").append(turbidityTimestamp).append(", salinity=").append(salinity).append(", salinityZonedDateTime=").append(salinityTimestamp).append(", pH=").append(ph).append(", pHZonedDateTime=").append(phTimestamp).append(", orp=").append(orp).append(", orpZonedDateTime=").append(orpTimestamp).append(", measurand=").append(Arrays.toString(measurand)).append(", O2=").append(o2).append(", O2Timestamp=").append(o2Timestamp).append(", Chla=").append(chla).append(", ChlaTimestamp=").append(chlaTimestamp).append(", PE=").append(pe).append(", PETimestamp=").append(peTimestamp).append(", PC=").append(pc).append(", PCTimestamp=").append(pcTimestamp).append(", NH4=").append(nh4).append(", NH4Timestamp=").append(nh4Timestamp).append(", NH3=").append(nh3).append(", NH3Timestamp=").append(nh3Timestamp).append(", Cl=").append(cl).append(", ClTimestamp=").append(clTimestamp).append(", NO3=").append(no3).append(", NO3Timestamp=").append(no3Timestamp).append(", id='").append(this.getPrimaryKey().getEntityId()).append("', type=").append(type).append(", dataProvider='").append(dataProvider).append("', dateModified=").append(dateModified).append(", dateCreated=").append(dateCreated).append(", location=").append(location).append(", address='").append(address).append("', refPointOfInterest='").append(refPointOfInterest).append("', dateObserved=").append(this.getPrimaryKey().getRecordingTimestamp()).append(", source='").append(source).append("', dateTimeFormatter=").append(dateTimeFormatter).append('}');
 
         return result.toString();
     }
