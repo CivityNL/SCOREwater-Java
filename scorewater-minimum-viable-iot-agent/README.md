@@ -1,6 +1,6 @@
 # SCOREwater minimum viable IoT agent
 
-An IoT agents picks up proprietery data fron an IoT device (for example a sensor), converts these data to a commonly used standard datamodels and publishes the data using open APIs. Currently there are two examples which demonstrate different approaches.
+An IoT agents picks up proprietery data fron an IoT device (for example a sensor), converts these data to a commonly used standard datamodels and publishes the data using open APIs. Currently there are two examples which demonstrate different approaches. They are included in the Docker iamges. These show how to run both agents. 
 
 ## SCOREwater GBG bathing water temperature
 
