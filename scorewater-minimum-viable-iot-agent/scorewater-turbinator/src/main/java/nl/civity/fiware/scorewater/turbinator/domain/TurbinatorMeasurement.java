@@ -39,7 +39,7 @@ import nl.civity.scorewater.fiware.datamodel.ObservedIdentifier;
  * @author basvanmeulebrouk
  */
 @Entity
-public class TurbinatorMeasurement  implements Serializable, Comparable<TurbinatorMeasurement> {
+public class TurbinatorMeasurement implements Serializable, Comparable<TurbinatorMeasurement> {
 
     @Id
     private ObservedIdentifier primaryKey;

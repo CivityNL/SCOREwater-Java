@@ -28,38 +28,38 @@
  */
 package nl.civity.fiware.scorewater.turbinator.domain.json;
 
-import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.TreeSet;
+import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorLocation;
 import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorMeasurement;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  *
  * @author basvanmeulebrouk
  */
-public class TurbinatorMeasurementJson {
+public class TurbinatorLocationJson {
     
-    public static Set<TurbinatorMeasurement> fromJsonString(String data) {
+    public static Set<TurbinatorLocation> fromJsonString(String data) {
         JSONObject jsonObject = new JSONObject(data);
         return fromJsonObject(jsonObject);
     }
     
-    public static Set<TurbinatorMeasurement> fromJsonObject(JSONObject jsonObject) {
-        Set<TurbinatorMeasurement> result = new TreeSet<>();
+    public static Set<TurbinatorLocation> fromJsonObject(JSONObject jsonObject) {
+        Set<TurbinatorLocation> result = new TreeSet<>();
         
-        String entityId = jsonObject.getString("id");
-        
-        JSONArray valuesJsonArray = jsonObject.getJSONArray("values");
-        
-        for (int i = 0; i < valuesJsonArray.length(); i ++) {
-            JSONObject valueJsonObject = valuesJsonArray.getJSONObject(i);
-            ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
-            Integer turbidity = valueJsonObject.getInt("turb");
-            Double waterLevel = valueJsonObject.getDouble("WL");
-            
-            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel));
+        if (jsonObject.has("lon") && jsonObject.has("lat")) {
+            Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonObject(jsonObject);
+            for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
+                String entityId = jsonObject.getString("id");
+                Double lon = jsonObject.getDouble("lon");
+                Double lat = jsonObject.getDouble("lat");
+                
+                // Assuming the first measurement in the list contains the correct timestamp
+                result.add(new TurbinatorLocation(entityId, turbinatorMeasurement.getPrimaryKey().getRecordingTimestamp(), lon, lat));
+                
+                break;
+            }
         }
         
         return result;

@@ -29,12 +29,19 @@
 package nl.civity.fiware.scorewater.turbinator.processor;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorLocation;
 import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorMeasurement;
+import nl.civity.fiware.scorewater.turbinator.domain.da.TurbinatorLocationRepository;
 import nl.civity.fiware.scorewater.turbinator.domain.da.TurbinatorMeasurementRepository;
+import nl.civity.fiware.scorewater.turbinator.domain.json.TurbinatorLocationJson;
 import nl.civity.fiware.scorewater.turbinator.domain.json.TurbinatorMeasurementJson;
+import nl.civity.scorewater.fiware.datamodel.environment.WaterQualityObserved;
+import nl.civity.scorewater.fiware.datamodel.environment.da.WaterQualityObservedRepository;
+import nl.civity.scorewater.fiware.datamodel.environment.serializer.NGSIWaterQualityObservedSerializer;
 import nl.civity.scorewater.fiware.processor.FiwareProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -45,18 +52,28 @@ import org.apache.camel.Message;
  */
 public class TurbinatorProcessor extends FiwareProcessor {
     
+    private final TurbinatorLocationRepository turbinatorLocationRepository;
+    
     private final TurbinatorMeasurementRepository turbinatorMeasurementRepository;
+    
+    private final WaterQualityObservedRepository waterQualityObservedRepository;
 
     private static final Logger LOGGER = Logger.getLogger(TurbinatorProcessor.class.getName());
 
-    public TurbinatorProcessor(String contextBrokerUrl, String fiwareService, String fiwarePath, TurbinatorMeasurementRepository turbinatorMeasurementRepository) {
+    public TurbinatorProcessor(String contextBrokerUrl, String fiwareService, String fiwarePath, TurbinatorLocationRepository turbinatorLocationRepository, TurbinatorMeasurementRepository turbinatorMeasurementRepository, WaterQualityObservedRepository waterQualityObservedRepository) {
         super(contextBrokerUrl, fiwareService, fiwarePath);
+        this.turbinatorLocationRepository = turbinatorLocationRepository;
         this.turbinatorMeasurementRepository = turbinatorMeasurementRepository;
+        this.waterQualityObservedRepository = waterQualityObservedRepository;
     }
 
     @Override
     protected SimpleModule getSerializerModule() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SimpleModule result = new SimpleModule();
+
+        result.addSerializer(WaterQualityObserved.class, new NGSIWaterQualityObservedSerializer(WaterQualityObserved.class));
+        
+        return result;
     }
 
     @Override
@@ -67,8 +84,18 @@ public class TurbinatorProcessor extends FiwareProcessor {
         
         LOGGER.log(Level.INFO, "Payload from Turbinator: [{0}]", new Object[]{data});
         
-        Set<TurbinatorMeasurement> measurements = TurbinatorMeasurementJson.fromJsonString(data);        
+        Set<TurbinatorLocation> turbinatorLocations = TurbinatorLocationJson.fromJsonString(data);        
+        this.turbinatorLocationRepository.saveAll(turbinatorLocations);
         
+        Set<TurbinatorMeasurement> turbinatorMeasurements = TurbinatorMeasurementJson.fromJsonString(data);        
+        this.turbinatorMeasurementRepository.saveAll(turbinatorMeasurements);
         
+        for (TurbinatorMeasurement turbinatorMeasurement : turbinatorMeasurements) {
+            Optional<WaterQualityObserved> optional = this.waterQualityObservedRepository.findById(turbinatorMeasurement.getPrimaryKey());
+            if (optional.isPresent()) {
+                WaterQualityObserved waterQualityObserved = optional.get();
+                this.publishToContextBroker(waterQualityObserved);
+            }
+        }
     }
 }

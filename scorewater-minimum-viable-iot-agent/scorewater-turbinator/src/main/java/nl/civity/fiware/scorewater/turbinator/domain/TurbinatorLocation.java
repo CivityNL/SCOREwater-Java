@@ -26,42 +26,61 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package nl.civity.fiware.scorewater.turbinator.domain.json;
+package nl.civity.fiware.scorewater.turbinator.domain;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.Set;
-import java.util.TreeSet;
-import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorMeasurement;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import nl.civity.scorewater.fiware.datamodel.ObservedIdentifier;
 
 /**
  *
  * @author basvanmeulebrouk
  */
-public class TurbinatorMeasurementJson {
+@Entity
+public class TurbinatorLocation implements Serializable, Comparable<TurbinatorLocation> {
     
-    public static Set<TurbinatorMeasurement> fromJsonString(String data) {
-        JSONObject jsonObject = new JSONObject(data);
-        return fromJsonObject(jsonObject);
+    @Id
+    private ObservedIdentifier primaryKey;
+    Double lon;
+    Double lat;
+
+    public TurbinatorLocation() {
     }
-    
-    public static Set<TurbinatorMeasurement> fromJsonObject(JSONObject jsonObject) {
-        Set<TurbinatorMeasurement> result = new TreeSet<>();
-        
-        String entityId = jsonObject.getString("id");
-        
-        JSONArray valuesJsonArray = jsonObject.getJSONArray("values");
-        
-        for (int i = 0; i < valuesJsonArray.length(); i ++) {
-            JSONObject valueJsonObject = valuesJsonArray.getJSONObject(i);
-            ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
-            Integer turbidity = valueJsonObject.getInt("turb");
-            Double waterLevel = valueJsonObject.getDouble("WL");
-            
-            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel));
-        }
-        
-        return result;
+
+    public TurbinatorLocation(String entityId, ZonedDateTime recordingTimestamp, Double lon, Double lat) {
+        this.primaryKey = new ObservedIdentifier(entityId, recordingTimestamp);
+        this.lon = lon;
+        this.lat = lat;
+    }
+
+    public ObservedIdentifier getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public void setPrimaryKey(ObservedIdentifier primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    @Override
+    public int compareTo(TurbinatorLocation that) {
+        return this.getPrimaryKey().compareTo(that.getPrimaryKey());
     }
 }

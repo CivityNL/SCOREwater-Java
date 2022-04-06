@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Civity BV Zeist
+ * Copyright (c) 2021, Civity BV Zeist
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,42 +26,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package nl.civity.fiware.scorewater.turbinator.domain.json;
+package nl.civity.fiware.scorewater.turbinator.routebuilder;
 
-import java.time.ZonedDateTime;
-import java.util.Set;
-import java.util.TreeSet;
-import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorMeasurement;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import nl.civity.fiware.scorewater.turbinator.domain.da.TurbinatorLocationRepository;
+import nl.civity.fiware.scorewater.turbinator.domain.da.TurbinatorMeasurementRepository;
+import nl.civity.fiware.scorewater.turbinator.processor.TurbinatorProcessor;
+import nl.civity.scorewater.fiware.datamodel.environment.da.WaterQualityObservedRepository;
+import nl.civity.scorewater.fiware.routebuilder.PostFiwareRouteBuilder;
+import org.apache.camel.Processor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author basvanmeulebrouk
  */
-public class TurbinatorMeasurementJson {
+@Component
+public class TurbinatorPostFiwareRouteBuilder extends PostFiwareRouteBuilder {
     
-    public static Set<TurbinatorMeasurement> fromJsonString(String data) {
-        JSONObject jsonObject = new JSONObject(data);
-        return fromJsonObject(jsonObject);
-    }
+    @Autowired
+    private TurbinatorLocationRepository turbinatorLocationRepository;
     
-    public static Set<TurbinatorMeasurement> fromJsonObject(JSONObject jsonObject) {
-        Set<TurbinatorMeasurement> result = new TreeSet<>();
-        
-        String entityId = jsonObject.getString("id");
-        
-        JSONArray valuesJsonArray = jsonObject.getJSONArray("values");
-        
-        for (int i = 0; i < valuesJsonArray.length(); i ++) {
-            JSONObject valueJsonObject = valuesJsonArray.getJSONObject(i);
-            ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
-            Integer turbidity = valueJsonObject.getInt("turb");
-            Double waterLevel = valueJsonObject.getDouble("WL");
-            
-            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel));
-        }
-        
-        return result;
+    @Autowired
+    private TurbinatorMeasurementRepository turbinatorMeasurementRepository;
+    
+    @Autowired
+    private WaterQualityObservedRepository waterQualityObservedRepository;
+    
+    @Override
+    protected Processor createProcessor() {
+        return new TurbinatorProcessor(this.getContextBrokerUrl(), this.getContextBrokerService(), null, this.turbinatorLocationRepository, this.turbinatorMeasurementRepository, this.waterQualityObservedRepository);
     }
 }

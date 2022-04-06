@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Civity BV Zeist
+ * Copyright (c) 2021, Civity BV Zeist
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,42 +26,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package nl.civity.fiware.scorewater.turbinator.domain.json;
+package nl.civity.fiware.scorewater.turbinator;
 
-import java.time.ZonedDateTime;
-import java.util.Set;
-import java.util.TreeSet;
-import nl.civity.fiware.scorewater.turbinator.domain.TurbinatorMeasurement;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-/**
- *
- * @author basvanmeulebrouk
- */
-public class TurbinatorMeasurementJson {
-    
-    public static Set<TurbinatorMeasurement> fromJsonString(String data) {
-        JSONObject jsonObject = new JSONObject(data);
-        return fromJsonObject(jsonObject);
-    }
-    
-    public static Set<TurbinatorMeasurement> fromJsonObject(JSONObject jsonObject) {
-        Set<TurbinatorMeasurement> result = new TreeSet<>();
-        
-        String entityId = jsonObject.getString("id");
-        
-        JSONArray valuesJsonArray = jsonObject.getJSONArray("values");
-        
-        for (int i = 0; i < valuesJsonArray.length(); i ++) {
-            JSONObject valueJsonObject = valuesJsonArray.getJSONObject(i);
-            ZonedDateTime recordingTimestamp = ZonedDateTime.parse(valueJsonObject.getString("DT"));
-            Integer turbidity = valueJsonObject.getInt("turb");
-            Double waterLevel = valueJsonObject.getDouble("WL");
-            
-            result.add(new TurbinatorMeasurement(entityId, recordingTimestamp, turbidity, waterLevel));
-        }
-        
-        return result;
+@SpringBootApplication
+@EnableJpaRepositories( { 
+    "nl.civity.fiware.scorewater.turbinator.domain.da", 
+    "nl.civity.scorewater.fiware.datamodel.environment.da"
+} )
+@EntityScan( { 
+    "nl.civity.fiware.scorewater.turbinator.domain", 
+    "nl.civity.scorewater.fiware.datamodel.environment" 
+} )
+public class TurbinatorApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(TurbinatorApplication.class, args);
     }
 }

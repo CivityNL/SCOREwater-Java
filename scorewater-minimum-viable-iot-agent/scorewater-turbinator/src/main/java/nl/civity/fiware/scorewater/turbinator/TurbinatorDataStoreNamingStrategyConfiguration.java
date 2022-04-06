@@ -28,13 +28,14 @@
  */
 package nl.civity.fiware.scorewater.turbinator;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import nl.civity.scorewater.fiware.DataStoreNamingStrategyConfiguration;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootApplication
-public class ScorewaterTurbinatorApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(ScorewaterTurbinatorApplication.class, args);
-    }
+/**
+ *
+ * @author basvanmeulebrouk
+ */
+@Configuration
+public class TurbinatorDataStoreNamingStrategyConfiguration extends DataStoreNamingStrategyConfiguration {
+    
 }
