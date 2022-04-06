@@ -5,7 +5,7 @@
  */
 package nl.civity.scorewater.gbg.bathingwater.routebuilder;
 
-import nl.civity.scorewater.fiware.routebuilder.MqttRouteBuilder;
+import nl.civity.scorewater.fiware.routebuilder.MqttFiwareRouteBuilder;
 import nl.civity.scorewater.gbg.bathingwater.processor.BathingWaterGbgFiwareProcessor;
 import org.apache.camel.Processor;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @author basvanmeulebrouk
  */
 @Component
-public class BathingWaterGbgMqttRouteBuilder extends MqttRouteBuilder {
+public class BathingWaterGbgMqttRouteBuilder extends MqttFiwareRouteBuilder {
     
     @Override
     protected Processor createProcessor() {
