@@ -1,3 +1,7 @@
+/*
+ * Create tables
+ * Usage: PGPASSWORD=KanaycsudenBaj psql -U turbinator -h host.docker.internal -d turbinator -p 5432 -f 02_create_tables.sql
+ */
 BEGIN;
 
 CREATE TABLE IF NOT EXISTS turbinator_measurement_wipawoik (

@@ -1,3 +1,7 @@
+/*
+ * Create views
+ * Usage: PGPASSWORD=KanaycsudenBaj psql -U turbinator -h host.docker.internal -d turbinator -p 5432 -f 03_create_views.sql
+ */
 BEGIN;
 
 CREATE OR REPLACE VIEW water_quality_observed_wipawoik AS (
