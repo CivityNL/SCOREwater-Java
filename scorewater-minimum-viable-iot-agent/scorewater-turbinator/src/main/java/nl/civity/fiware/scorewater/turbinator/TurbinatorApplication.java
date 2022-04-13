@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Civity BV Zeist
+ * Copyright (c) 2022, Civity BV Zeist
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
