@@ -18,9 +18,11 @@ import org.springframework.stereotype.Component;
 public class DataStoreNamingStrategy implements PhysicalNamingStrategy {
 
     private final String applicationId;
+    private final String schemaName;
 
-    public DataStoreNamingStrategy(String applicationId) {
+    public DataStoreNamingStrategy(String applicationId, String schemaName) {
         this.applicationId = applicationId;
+        this.schemaName = schemaName;
     }
 
     @Override
@@ -35,8 +37,7 @@ public class DataStoreNamingStrategy implements PhysicalNamingStrategy {
 
     @Override
     public Identifier toPhysicalSchemaName(final Identifier identifier, final JdbcEnvironment jdbcEnv) {
-        // CKAN datastore always uses the public schema
-        return Identifier.toIdentifier("public");
+        return Identifier.toIdentifier(this.schemaName);
     }
 
     @Override

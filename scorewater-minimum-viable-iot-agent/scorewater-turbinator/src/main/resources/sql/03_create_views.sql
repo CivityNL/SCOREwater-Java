@@ -4,6 +4,8 @@
  */
 BEGIN;
 
+SET search_path TO turbinator,public;
+
 CREATE OR REPLACE VIEW water_quality_observed_wipawoik AS (
     SELECT 
         a.entity_id,

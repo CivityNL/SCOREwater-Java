@@ -19,9 +19,12 @@ public class DataStoreNamingStrategyConfiguration {
 
     @Value("${ckan.application.id}")
     private String applicationId;
+    
+    @Value("${spring.jpa.properties.hibernate.default_schema}")
+    private String defaultSchema;
 
     @Bean
     public PhysicalNamingStrategy physicalNamingStrategy() {
-        return new DataStoreNamingStrategy(applicationId);
+        return new DataStoreNamingStrategy(applicationId, defaultSchema);
     }
 }
