@@ -68,7 +68,7 @@ CREATE OR REPLACE VIEW water_quality_observed_wipawoik AS (
             LEAD(recording_timestamp) OVER (PARTITION BY entity_id ORDER BY recording_timestamp) AS next_recording_timestamp,
             lon,
             lat
-        FROM public.turbinator_location_wipawoik
+        FROM turbinator_location_wipawoik
     ) AS b 
     ON a.entity_id = b.entity_id AND a.recording_timestamp >= b.recording_timestamp AND (a.recording_timestamp < b.next_recording_timestamp OR b.next_recording_timestamp IS NULL)
 );
