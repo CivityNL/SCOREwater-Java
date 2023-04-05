@@ -56,6 +56,14 @@ public class OrionContextBroker {
 
     protected static final String ENTITIES = "/v2/entities";
 
+    protected static final String FIWARE_SERVICE_PATH = "Fiware-ServicePath";
+
+    protected static final String FIWARE_SERVICE = "Fiware-Service";
+
+    protected static final String CONTENT_TYPE = "Content-Type";
+
+    protected static final String APPLICATION_JSON = "application/json";
+
     private final String url;
     
     private final String fiwareService;
@@ -94,9 +102,9 @@ public class OrionContextBroker {
 
             String location = REST_CLIENT.postHttp(urlString, this.createHeaders(), this.createParameters(), 204, data);
 
-            LOGGER.info(String.format("Location of upserted entity: %s", location));
+            LOGGER.info(String.format("Location of upserted entity: [%s]", location));
         } catch (RestClientException ex) {
-            throw new OrionContextBrokerException(String.format("Error upserting entity to %s", this.url), ex);
+            throw new OrionContextBrokerException(String.format("Error upserting entity to  [%s]: [%s]", this.url, ex.getMessage()), ex);
         }
     }
 
@@ -143,7 +151,7 @@ public class OrionContextBroker {
 
             result = SubscriptionList.fromJSON(jsonArray);
         } catch (RestClientException ex) {
-            throw new OrionContextBrokerException(String.format("Error listing subscriptions for %s", this.getUrl()), ex);
+            throw new OrionContextBrokerException(String.format("Error listing subscriptions for [%s]", this.getUrl()), ex);
         }
 
         return result;
@@ -174,14 +182,14 @@ public class OrionContextBroker {
     protected Map<String, String> createHeaders() {
         Map<String, String> headers = new HashMap<>();
         
-        headers.put("Content-Type", "application/json");
+        headers.put(CONTENT_TYPE, APPLICATION_JSON);
         
         if (this.fiwareService != null) {
-            headers.put("Fiware-Service", this.fiwareService);
+            headers.put(FIWARE_SERVICE, this.fiwareService);
         }
         
         if (this.fiwareServicePath != null) {
-            headers.put("Fiware-ServicePath", this.fiwareServicePath);
+            headers.put(FIWARE_SERVICE_PATH, this.fiwareServicePath);
         }
         
         return headers;

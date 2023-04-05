@@ -41,7 +41,7 @@ public class Attribute {
     private String name;
     private String type;
     private Object value;
-    private List<Metadata> metadata = new ArrayList();
+    private List<Metadata> metadata = new ArrayList<>();
 
     public Attribute(String name, String type, Object value) {
         this.name = name;
@@ -66,6 +66,14 @@ public class Attribute {
     }
 
     public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public void setValue(Integer value) {
         this.value = value;
     }
 
