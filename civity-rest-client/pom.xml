@@ -40,6 +40,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>c479d23b6d71-releases</name>
+            <url>http://localhost:8081/artifactory/test-libs-release</url>
+        </repository>
+    </distributionManagement>
     
     <build>
         <plugins>
