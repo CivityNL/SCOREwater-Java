@@ -6,3 +6,4 @@ nb-configuration.xml
 nbactions.xml
 /images.pptx
 .idea
+/scorewater-minimum-viable-iot-agent/*.log
