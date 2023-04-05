@@ -139,7 +139,7 @@ public class WaterQualityObserved extends Observed implements Serializable {
     //   - description : short description of the measurand.
     //   - Examples: "NO3,0.01, M1, Nitrates"
     // - Optional
-    String[] measurand;
+    private String[] measurand;
 
     // Level of free, non-compound oxygen present.
     // - Attribute type: Property. Number
@@ -224,6 +224,9 @@ public class WaterQualityObserved extends Observed implements Serializable {
     private Double no3;
     @Column(name = "no3_timestamp")
     private ZonedDateTime no3Timestamp;
+
+    private Double flow;
+    private ZonedDateTime flowTimestamp;
 
     // To convert NO3-N to NO3, multiply by 4.427, to convert NO3 to NO3-N devide by 4.427
     @Transient
@@ -652,6 +655,22 @@ public class WaterQualityObserved extends Observed implements Serializable {
     public void setNO3Timestamp(ZonedDateTime NO3Timestamp) {
         setDateModified();
         this.no3Timestamp = NO3Timestamp;
+    }
+
+    public Double getFlow() {
+        return flow;
+    }
+
+    public void setFlow(Double flow) {
+        this.flow = flow;
+    }
+
+    public ZonedDateTime getFlowTimestamp() {
+        return flowTimestamp;
+    }
+
+    public void setFlowTimestamp(ZonedDateTime flowTimestamp) {
+        this.flowTimestamp = flowTimestamp;
     }
 
     public Double getNO3NtoNO3Multiplier() {

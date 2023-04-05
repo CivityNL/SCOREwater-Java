@@ -4,6 +4,8 @@
  */
 BEGIN;
 
+SET search_path TO turbinator,public;
+
 CREATE TABLE IF NOT EXISTS turbinator_measurement_wipawoik (
     entity_id VARCHAR(256),
     recording_timestamp TIMESTAMP,
