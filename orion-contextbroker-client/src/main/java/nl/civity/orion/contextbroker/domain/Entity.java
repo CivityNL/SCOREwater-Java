@@ -29,7 +29,9 @@
 package nl.civity.orion.contextbroker.domain;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -46,7 +48,10 @@ import org.locationtech.jts.geom.GeometryFactory;
  */
 public class Entity {
 
+    public static final String DATE_RECORDED = "dateRecorded";
     private String id;
+
+    private ZonedDateTime dateObserved;
 
     private String type;
 

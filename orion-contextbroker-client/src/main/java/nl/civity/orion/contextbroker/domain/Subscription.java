@@ -40,6 +40,18 @@ import org.json.JSONObject;
  */
 public class Subscription {
 
+    public static final String DESCRIPTION = "description";
+    public static final String ENTITIES = "entities";
+    public static final String HTTP = "http";
+    public static final String ID = "id";
+    public static final String ID_PATTERN = "idPattern";
+    protected static final String NOTIFICATION = "notification";
+    public static final String STATUS = "status";
+    public static final String SUBJECT = "subject";
+    public static final String THROTTLING = "throttling";
+    public static final String TYPE = "type";
+    public static final String URL = "url";
+
     private final ArrayList<String> ids = new ArrayList<>();
 
     private String subscriptionId;
@@ -120,25 +132,25 @@ public class Subscription {
 
     public JSONObject toJSON() {
         JSONObject notification = new JSONObject();
-        notification.put("http", createHttpJSONObject());
+        notification.put(HTTP, createHttpJSONObject());
 
         JSONObject subject = new JSONObject();
-        subject.put("entities", createEntitiesJSONObject());
+        subject.put(ENTITIES, createEntitiesJSONObject());
 
         JSONObject result = new JSONObject();
 
-        result.put("description", this.getDescription());
-        result.put("status", this.getStatus());
-        result.put("subject", subject);
+        result.put(DESCRIPTION, this.getDescription());
+        result.put(STATUS, this.getStatus());
+        result.put(SUBJECT, subject);
         result.put(NOTIFICATION, notification);
-        result.put("throttling", 0);
+        result.put(THROTTLING, 0);
 
         return result;
     }
 
     protected JSONObject createHttpJSONObject() throws JSONException {
         JSONObject http = new JSONObject();
-        http.put("url", this.getNotificationUrl());
+        http.put(URL, this.getNotificationUrl());
         return http;
     }
 
@@ -149,15 +161,15 @@ public class Subscription {
             // Either include the list of ID's...
             for (String id : this.ids) {
                 JSONObject entity = new JSONObject();
-                entity.put("id", id);
+                entity.put(ID, id);
                 entities.put(entity);
             }
         } else {
             // ... or the ID pattern and the type. 
             JSONObject entity = new JSONObject();
-            entity.put("idPattern", this.idPattern);
+            entity.put(ID_PATTERN, this.idPattern);
             if (this.type != null) {
-                entity.put("type", this.type);
+                entity.put(TYPE, this.type);
             }
             entities.put(entity);
         }
@@ -166,9 +178,9 @@ public class Subscription {
     }
 
     public static Subscription fromJSON(JSONObject jsonObject) throws OrionContextBrokerException {
-        String description = jsonObject.getString("description");
-        String id = jsonObject.getString("id");
-        String status = jsonObject.getString("status");
+        String description = jsonObject.getString(DESCRIPTION);
+        String id = jsonObject.getString(ID);
+        String status = jsonObject.getString(STATUS);
         String notificationUrl = notificationUrlFromJSON(jsonObject);
 
         Subscription result = new Subscription(id, description, notificationUrl, status);
@@ -183,15 +195,15 @@ public class Subscription {
             Object notificationObject = jsonObject.get(NOTIFICATION);
             if (notificationObject instanceof JSONObject) {
                 JSONObject notificationJSONObject = (JSONObject) notificationObject;
-                Object httpObject = notificationJSONObject.get("http");
+                Object httpObject = notificationJSONObject.get(HTTP);
                 if (httpObject instanceof JSONObject) {
                     JSONObject httpJSONObject = (JSONObject) httpObject;
-                    result = httpJSONObject.getString("url");
+                    result = httpJSONObject.getString(URL);
                 } else {
-                    throw new OrionContextBrokerException(String.format("%s is not a %s", httpObject.getClass().getName(), JSONObject.class.getName()));
+                    throw new OrionContextBrokerException(String.format("[%s] is not a [%s]", httpObject.getClass().getName(), JSONObject.class.getName()));
                 }
             } else {
-                throw new OrionContextBrokerException(String.format("%s is not a %s", notificationObject.getClass().getName(), JSONObject.class.getName()));
+                throw new OrionContextBrokerException(String.format("[%s] is not a [%s]", notificationObject.getClass().getName(), JSONObject.class.getName()));
             }
         } else {
             throw new OrionContextBrokerException(String.format("Node [%s] not found in [%s]. This is not a notification JSON object", NOTIFICATION, jsonObject.toString()));
@@ -199,7 +211,6 @@ public class Subscription {
 
         return result;
     }
-    protected static final String NOTIFICATION = "notification";
 
     @Override
     public String toString() {
