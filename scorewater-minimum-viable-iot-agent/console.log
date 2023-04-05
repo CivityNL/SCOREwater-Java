@@ -1,0 +1,40 @@
+2022-08-04 12:47:42.824  INFO 15284 --- [main] n.c.f.s.t.TurbinatorApplication          : Starting TurbinatorApplication using Java 1.8.0_242 on onetrail-bv2 with PID 15284 (C:\Users\basvanmeulebrouk\Workspace\SCOREwater\Replication\SCOREwater-Java\scorewater-minimum-viable-iot-agent\scorewater-turbinator\target\classes started by basvanmeulebrouk in C:\Users\basvanmeulebrouk\Workspace\SCOREwater\Replication\SCOREwater-Java\scorewater-minimum-viable-iot-agent)
+2022-08-04 12:47:42.826  INFO 15284 --- [main] n.c.f.s.t.TurbinatorApplication          : No active profile set, falling back to default profiles: default
+2022-08-04 12:47:43.339  INFO 15284 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-08-04 12:47:43.391  INFO 15284 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 3 JPA repository interfaces.
+2022-08-04 12:47:44.037  INFO 15284 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-08-04 12:47:44.044  INFO 15284 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-08-04 12:47:44.044  INFO 15284 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2022-08-04 12:47:44.131  INFO 15284 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-08-04 12:47:44.132  INFO 15284 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1258 ms
+2022-08-04 12:47:44.278  INFO 15284 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-08-04 12:47:44.421  INFO 15284 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-08-04 12:47:44.455  INFO 15284 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-08-04 12:47:44.490  INFO 15284 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2022-08-04 12:47:44.600  INFO 15284 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-08-04 12:47:44.714  INFO 15284 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
+2022-08-04 12:47:45.356  INFO 15284 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-08-04 12:47:45.365  INFO 15284 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-08-04 12:47:45.830  WARN 15284 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-08-04 12:47:46.217  WARN 15284 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8080 is already in use
+2022-08-04 12:47:46.220  INFO 15284 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-08-04 12:47:46.222  INFO 15284 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-08-04 12:47:46.224  INFO 15284 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-08-04 12:47:46.225  INFO 15284 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-08-04 12:47:46.237  INFO 15284 --- [main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-08-04 12:47:46.250 ERROR 15284 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
