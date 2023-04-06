@@ -7,3 +7,6 @@ nbactions.xml
 /images.pptx
 .idea
 /scorewater-minimum-viable-iot-agent/*.log
+/scorewater-minimum-viable-iot-agent/scorewater-turbinator/*.gz
+/scorewater-minimum-viable-iot-agent/scorewater-turbinator/*.log
+/scorewater-minimum-viable-iot-agent/console.log

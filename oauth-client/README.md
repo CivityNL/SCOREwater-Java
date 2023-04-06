@@ -15,16 +15,20 @@ The library should now be available in your local Maven repository.
 
 # Running the example program
 
-The library contains an example program OAuthClientMain which demonstrates how to use the library. Spin up the containers defined in the docker-compose file in the docker folder. The docker-compose file contains a PostgreSQL database and a Keycloak instance using this database. Once the containers are up and running, navigate to [your local Keycloak](https://localhost:8443) using a web browser. Since Keycloak is using a self-signed certificate, you may have to explicity trust the certificate. Login to Keycloak (see the docker-compose file for the username and the password). 
+The library contains an example program OAuthClientMain which demonstrates how to use the library. If you do not have a test Keycloak environment on a server somewhere, you can spin up the containers defined in the docker-compose file in the docker folder. The docker-compose file contains a PostgreSQL database and a Keycloak instance using this database. Once the containers are up and running, navigate to [your local Keycloak](https://localhost:8443) using a web browser. Since Keycloak is using a self-signed certificate, you may have to explicitly trust the certificate. Login to Keycloak (see the docker-compose file for the username and the password). 
 
 1. Create a "scorewater" realm; 
 2. Create a "fredrik" user with a password in this realm;
 3. Create a client with client ID "oauth_client_test_private" and a client secret in this realm.
 
-Import your self-signed certificate in Java's truststore before running the example program. Importing the self-signed certificate can be down by exporting it from your browser (to which it has been added when you accepted it) and importing it with following command:
+Import your self-signed certificate in Java's truststore before running the example program. Importing the self-signed certificate can be done by exporting it from your browser (to which it has been added when you accepted it) and importing it with following command:
 
-```agsl
+```
 keytool -import -alias oauth_client_keycloak -keystore $JAVA_HOME/jre/lib/security/cacerts -file ~/Downloads/server.crt
 ```
 
-You need administrative privileges to be able to do this. 
+You need administrative privileges to be able to do this. If you do not import the self-signed certificate in the Java truststore, you will get the following exception: 
+
+```
+sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target.
+``` 
