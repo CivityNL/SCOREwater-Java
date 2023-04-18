@@ -4,14 +4,14 @@
     
     <groupId>nl.civity</groupId>
     <artifactId>orion-contextbroker-client</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
     
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20201115</version>
+            <version>20230227</version>
         </dependency>
         <dependency>
             <groupId>org.locationtech.jts</groupId>
