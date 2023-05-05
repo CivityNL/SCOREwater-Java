@@ -31,16 +31,15 @@ package nl.civity.orion.contextbroker;
 import nl.civity.orion.contextbroker.restclient.OrionContextBrokerRestClient;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.civity.orion.contextbroker.domain.Entity;
 import nl.civity.orion.contextbroker.domain.EntityList;
 import nl.civity.orion.contextbroker.domain.Subscription;
 import nl.civity.orion.contextbroker.domain.SubscriptionList;
-import nl.civity.rest.client.ApacheHttpRestClient;
 import nl.civity.rest.client.RestClient;
 import nl.civity.rest.client.RestClientException;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -60,9 +59,11 @@ public class OrionContextBroker {
 
     protected static final String FIWARE_SERVICE = "Fiware-Service";
 
-    protected static final String CONTENT_TYPE = "Content-Type";
+    public static final String CONTENT_TYPE = "Content-Type";
 
-    protected static final String APPLICATION_JSON = "application/json";
+    public static final String APPLICATION_JSON = "application/json";
+
+    public static final String TYPE = "type";
 
     private final String url;
     
@@ -81,10 +82,35 @@ public class OrionContextBroker {
 
         try {
             JSONArray jsonArray = this.getJSONArray(this.url + ENTITIES);
-
             result = EntityList.fromJSON(jsonArray);
         } catch (RestClientException ex) {
             throw new OrionContextBrokerException(String.format("Error getting entities from [%s]: [%s]", this.url, ex.getMessage()), ex);
+        }
+
+        return result;
+    }
+
+    public EntityList getEntities(String type) throws OrionContextBrokerException {
+        EntityList result;
+
+        try {
+            JSONArray jsonArray = this.getJSONArray(this.url + ENTITIES + "?" + TYPE + "=" + type);
+            result = EntityList.fromJSON(jsonArray);
+        } catch (RestClientException ex) {
+            throw new OrionContextBrokerException(String.format("Error getting entities from [%s]: [%s]", this.url, ex.getMessage()), ex);
+        }
+
+        return result;
+    }
+
+    public Entity getEntity(String entityId) throws OrionContextBrokerException {
+        Entity result;
+
+        try {
+            JSONObject jsonObject = this.getJSONObject(this.url + ENTITIES + "/" + entityId);
+            result = Entity.fromJSON(jsonObject);
+        } catch (RestClientException ex) {
+            throw new OrionContextBrokerException(String.format("Error getting entity from [%s]: [%s]", this.url, ex.getMessage()), ex);
         }
 
         return result;
@@ -100,7 +126,7 @@ public class OrionContextBroker {
         try {
             String urlString = url + ENTITIES + "?options=upsert";
 
-            String location = REST_CLIENT.postHttp(urlString, this.createHeaders(), this.createParameters(), 204, data);
+            String location = REST_CLIENT.postHttp(urlString, this.createHeaders(true), this.createParameters(), 204, data);
 
             LOGGER.info(String.format("Location of upserted entity: [%s]", location));
         } catch (RestClientException ex) {
@@ -109,7 +135,7 @@ public class OrionContextBroker {
     }
 
     public String subscribe(Subscription subscription) throws OrionContextBrokerException {
-        String subscriptionId = null;
+        String subscriptionId;
         
         try {
             String data = subscription.toString();
@@ -125,11 +151,11 @@ public class OrionContextBroker {
 
             if (existing == null) {
                 // If not, create a new subscription
-                String location = REST_CLIENT.postHttp(urlString, this.createHeaders(), parameters, 201, data);
+                String location = REST_CLIENT.postHttp(urlString, this.createHeaders(true), parameters, 201, data);
                 subscriptionId = location.replace(SUBSCRIPTIONS + "/", "");
             } else {
                 // Else, update existing subscription
-                REST_CLIENT.patchHttp(urlString + "/" + existing.getSubscriptionId(), this.createHeaders(), parameters, 204, data);
+                REST_CLIENT.patchHttp(urlString + "/" + existing.getSubscriptionId(), this.createHeaders(true), parameters, 204, data);
                 subscriptionId = existing.getSubscriptionId();
             }
             
@@ -161,29 +187,33 @@ public class OrionContextBroker {
         String urlString = this.getUrl() + SUBSCRIPTIONS + "/" + aSubscription.getSubscriptionId();
 
         try {
-            REST_CLIENT.deleteHttp(urlString, this.createHeaders(), this.createParameters(), 200);
+            REST_CLIENT.deleteHttp(urlString, this.createHeaders(false), this.createParameters(), 200);
         } catch (RestClientException ex) {
-            Logger.getLogger(OrionContextBroker.class.getName()).log(Level.SEVERE, null, ex);
+            throw new OrionContextBrokerException(String.format("Error deleting subscription [%s] from [%s]", aSubscription.getSubscriptionId(), this.getUrl()), ex);
         }
     }
 
     protected String getUrl() {
         return url;
     }
-    
-    protected JSONArray getJSONArray(String url) throws RestClientException {
-        String data = REST_CLIENT.getHttp(url, this.createHeaders(), this.createParameters(), 200);
-        
-        JSONArray result = new JSONArray(data);
-        
-        return result;
+
+    protected JSONObject getJSONObject(String url) throws RestClientException {
+        String data = REST_CLIENT.getHttp(url, this.createHeaders(false), this.createParameters(), 200);
+        return new JSONObject(data);
     }
 
-    protected Map<String, String> createHeaders() {
+    protected JSONArray getJSONArray(String url) throws RestClientException {
+        String data = REST_CLIENT.getHttp(url, this.createHeaders(false), this.createParameters(), 200);
+        return new JSONArray(data);
+    }
+
+    protected Map<String, String> createHeaders(boolean includeContentType) {
         Map<String, String> headers = new HashMap<>();
-        
-        headers.put(CONTENT_TYPE, APPLICATION_JSON);
-        
+
+        if (includeContentType) {
+            headers.put(CONTENT_TYPE, APPLICATION_JSON);
+        }
+
         if (this.fiwareService != null) {
             headers.put(FIWARE_SERVICE, this.fiwareService);
         }
@@ -196,8 +226,6 @@ public class OrionContextBroker {
     }
 
     protected Map<String, String> createParameters() {
-        Map<String, String> parameters = new HashMap<>();
-        
-        return parameters;
+        return new HashMap<>();
     }
 }

@@ -52,6 +52,21 @@ public class EntityList extends HashSet<Entity> {
         return result;
     }
 
+    public JSONArray toJSON() {
+        JSONArray result = new JSONArray();
+
+        for (Entity entity : this) {
+            result.put(entity.toJSON());
+        }
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return this.toJSON().toString();
+    }
+
     public static EntityList fromJSON(JSONArray jsonArray) throws OrionContextBrokerException {
         EntityList result = new EntityList();
 
