@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, basvanmeulebrouk
+ * Copyright (c) 2021, Civity
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,10 +33,10 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * Based on this tutorial: https://www.baeldung.com/spring-mocking-webclient
+ * Based on this tutorial: <a href="https://www.baeldung.com/spring-mocking-webclient">...</a>
  * @author basvanmeulebrouk
  */
-public class RestClientTest {
+abstract class RestClientTest {
     
     private MockWebServer mockWebServer;
 

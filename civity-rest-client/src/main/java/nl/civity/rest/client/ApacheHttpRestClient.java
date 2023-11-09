@@ -163,7 +163,7 @@ public class ApacheHttpRestClient extends AbstractRestClient {
     protected String getResponse(final CloseableHttpResponse response) throws IOException, ParseException {
         String result = "";
         
-        if (response.getEntity() != null) {
+        if (response.getEntity() != null && response.getEntity().getContent() != null) {
             result = (EntityUtils.toString(response.getEntity()));
         }
         

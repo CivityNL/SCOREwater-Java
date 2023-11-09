@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author basvanmeulebrouk
  */
-public class ApacheHttpRestClientTest extends RestClientTest {
+class ApacheHttpRestClientTest extends RestClientTest {
 
     private ApacheHttpRestClient instance;
     
@@ -57,7 +57,7 @@ public class ApacheHttpRestClientTest extends RestClientTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testDeleteHttp() throws Exception {
+    void testDeleteHttp() throws Exception {
         System.out.println("deleteHttp");
 
         enqueueMockRequest(HELLO_WORLD, 204);
@@ -77,7 +77,7 @@ public class ApacheHttpRestClientTest extends RestClientTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testGetHttp() throws Exception {
+    void testGetHttp() throws Exception {
         System.out.println("getHttp");
 
         enqueueMockRequest(HELLO_WORLD, 200);
@@ -97,7 +97,7 @@ public class ApacheHttpRestClientTest extends RestClientTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testPatchHttp() throws Exception {
+    void testPatchHttp() throws Exception {
         System.out.println("patchHttp");
 
         enqueueMockRequest(HELLO_WORLD, 200);
@@ -121,7 +121,7 @@ public class ApacheHttpRestClientTest extends RestClientTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testPostHttp() throws Exception {
+    void testPostHttp() throws Exception {
         System.out.println("postHttp");
 
         enqueueMockRequest(HELLO_WORLD, 201);
@@ -141,7 +141,7 @@ public class ApacheHttpRestClientTest extends RestClientTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testPutHttp() throws Exception {
+    void testPutHttp() throws Exception {
         System.out.println("putHttp");
 
         enqueueMockRequest(HELLO_WORLD, 200);
