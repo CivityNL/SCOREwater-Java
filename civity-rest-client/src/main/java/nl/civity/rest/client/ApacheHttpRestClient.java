@@ -36,6 +36,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -163,8 +164,22 @@ public class ApacheHttpRestClient extends AbstractRestClient {
     protected String getResponse(final CloseableHttpResponse response) throws IOException, ParseException {
         String result = "";
         
-        if (response.getEntity() != null && response.getEntity().getContent() != null) {
-            result = (EntityUtils.toString(response.getEntity()));
+        if (response.getEntity() != null) {
+            if (response.getEntity().getContent() != null) {
+                try {
+                    result = (EntityUtils.toString(response.getEntity()));
+                } catch (EOFException e) {
+                    LOGGER.log(
+                            Level.INFO,
+                            "Error reading response.getEntity().getContent(): [{0}]",
+                            new Object[]{e.getMessage()}
+                    );
+                }
+            } else {
+                LOGGER.log(Level.INFO, "response.getEntity().getContent() == null");
+            }
+        } else {
+            LOGGER.log(Level.INFO, "response.getEntity() == null");
         }
         
         return result;
