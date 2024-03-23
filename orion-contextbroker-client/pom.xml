@@ -4,24 +4,24 @@
     
     <groupId>nl.civity</groupId>
     <artifactId>orion-contextbroker-client</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
     
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20230227</version>
+            <version>20240303</version>
         </dependency>
         <dependency>
             <groupId>org.locationtech.jts</groupId>
             <artifactId>jts-core</artifactId>
-            <version>1.18.2</version>
+            <version>1.19.0</version>
         </dependency>
         <dependency>
             <groupId>nl.civity</groupId>
             <artifactId>civity-rest-client</artifactId>
-            <version>1.1</version>
+            <version>1.2.1</version>
         </dependency>
 
         <dependency>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>4.9.0</version>
+            <version>4.12.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
