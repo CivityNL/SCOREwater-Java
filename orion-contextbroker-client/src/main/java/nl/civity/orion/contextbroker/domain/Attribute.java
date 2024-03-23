@@ -31,6 +31,7 @@ package nl.civity.orion.contextbroker.domain;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  *
@@ -74,6 +75,10 @@ public class Attribute {
     }
 
     public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public void setValue(Geometry value) {
         this.value = value;
     }
 
