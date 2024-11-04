@@ -116,6 +116,24 @@ public class OrionContextBroker {
         return result;
     }
 
+    public void deleteEntity(String entityId) throws OrionContextBrokerException {
+        try {
+            String urlString = url + ENTITIES + "/" + entityId;
+
+            Map<String, String> headers = this.createHeaders(false);
+            Map<String, String> parameters = new HashMap<>();
+
+            // 204 no content in case the entity exists
+            // 404 in case the entity does not exist
+            String location = REST_CLIENT.deleteHttp(urlString, headers, parameters, new int[]{204, 404});
+
+            LOGGER.info(String.format("Location of deleted entity: %s", location));
+        } catch (RestClientException ex) {
+            throw new OrionContextBrokerException(String.format("Error upserting entity to %s", this.url), ex);
+        }
+    }
+
+
     public void updateEntity(Entity entity) throws OrionContextBrokerException {
         String data = entity.toString();
 
@@ -227,5 +245,10 @@ public class OrionContextBroker {
 
     protected Map<String, String> createParameters() {
         return new HashMap<>();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("OrionContextBrokerClient [%s]", this.getUrl());
     }
 }
