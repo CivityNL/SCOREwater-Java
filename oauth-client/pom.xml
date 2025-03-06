@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nl.civity</groupId>
     <artifactId>oauth-client</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -17,12 +17,12 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20230227</version>
+            <version>20240303</version>
         </dependency>
         <dependency>
             <groupId>nl.civity</groupId>
             <artifactId>civity-rest-client</artifactId>
-            <version>1.1</version>
+            <version>1.2.1</version>
         </dependency>
     </dependencies>
 

@@ -10,8 +10,8 @@
  * * Redistributions in binary form must reproduce the above copyright notice,
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
- * * Neither the name of the copyright holder nor the names of its contributors 
- *   may be used to endorse or promote products derived from this software without 
+ * * Neither the name of the copyright holder nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software without
  *   specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -31,12 +31,15 @@ package nl.civity.rest.client;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -46,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -54,6 +58,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 /**
  * Implementation of RestClient interface using Apache http components library
+ *
  * @author basvanmeulebrouk
  */
 public class ApacheHttpRestClient extends AbstractRestClient {
@@ -110,10 +115,15 @@ public class ApacheHttpRestClient extends AbstractRestClient {
     public String postHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException {
         return this.doPostHttp(uri, headers, parameters, expectedReturnCodes, this.stringToHttpEntity(body));
     }
-    
+
     @Override
     public String postHttpFormData(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, Map<String, String> formData) throws RestClientException {
         return this.doPostHttp(uri, headers, parameters, expectedReturnCodes, mapToHttpEntity(formData, uri));
+    }
+
+    @Override
+    public String postHttpFile(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, File file, Map<String, String> formData) throws RestClientException {
+        return this.doPostHttp(uri, headers, parameters, expectedReturnCodes, fileToHttpEntity(file, formData, uri));
     }
 
     protected String doPostHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, HttpEntity body) throws RestClientException {
@@ -130,7 +140,7 @@ public class ApacheHttpRestClient extends AbstractRestClient {
 
         return result;
     }
-    
+
     @Override
     public String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, String body) throws RestClientException {
         String result;
@@ -152,7 +162,7 @@ public class ApacheHttpRestClient extends AbstractRestClient {
 
         try (CloseableHttpResponse response = httpClient.execute(httpRequest)) {
             result = getResponse(response);
-            
+
             checkResponseCode(response, expectedReturnCodes, httpRequest, result);
 
             LOGGER.log(Level.INFO, "Successfully executed HTTP request: {0}", httpRequest.getURI().toASCIIString());
@@ -163,7 +173,7 @@ public class ApacheHttpRestClient extends AbstractRestClient {
 
     protected String getResponse(final CloseableHttpResponse response) throws IOException, ParseException {
         String result = "";
-        
+
         if (response.getEntity() != null) {
             if (response.getEntity().getContent() != null) {
                 try {
@@ -181,22 +191,22 @@ public class ApacheHttpRestClient extends AbstractRestClient {
         } else {
             LOGGER.log(Level.INFO, "response.getEntity() == null");
         }
-        
+
         return result;
     }
 
     protected void checkResponseCode(final CloseableHttpResponse response, int[] expectedReturnCodes, HttpRequestBase httpRequest, String result) throws RestClientException {
         int responseCode = response.getStatusLine().getStatusCode();
-        
+
         boolean found = false;
-        
+
         for (Integer expectedReturnCode : expectedReturnCodes) {
             if (responseCode == expectedReturnCode) {
                 found = true;
                 break;
             }
         }
-        
+
         if (!found) {
             throw new RestClientException(String.format("Error [%s] executing request to [%s]. The server returned: [%s]", response.getStatusLine(), httpRequest.getURI().toASCIIString(), result));
         }
@@ -238,9 +248,10 @@ public class ApacheHttpRestClient extends AbstractRestClient {
 
     /**
      * Convert a String to a httpEntity
+     *
      * @param body
      * @return
-     * @throws RestClientException 
+     * @throws RestClientException
      */
     protected HttpEntity stringToHttpEntity(String body) throws RestClientException {
         try {
@@ -252,24 +263,39 @@ public class ApacheHttpRestClient extends AbstractRestClient {
 
     /**
      * Convert a map with name=value pairs to a httpEntity
+     *
      * @param formData
      * @param uri
      * @return
-     * @throws RestClientException 
+     * @throws RestClientException
      */
     protected HttpEntity mapToHttpEntity(Map<String, String> formData, String uri) throws RestClientException {
         List<NameValuePair> params = new ArrayList<>();
-        
+
         for (Map.Entry<String, String> entry : formData.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             params.add(new BasicNameValuePair(key, value));
         }
-        
+
         try {
             return new UrlEncodedFormEntity(params);
         } catch (UnsupportedEncodingException ex) {
-            throw new RestClientException(String.format("Error posting URL enbcoded form data to %s", uri), ex);
+            throw new RestClientException(String.format("Error posting URL encoded form data to [%s]", uri), ex);
         }
+    }
+
+    protected HttpEntity fileToHttpEntity(File file, Map<String, String> formData, String uri) throws RestClientException {
+        MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create()
+                // .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+                // .setBoundary("----WebKitFormBoundaryDeC2E3iWbTv1PwMC")
+                .setContentType(ContentType.MULTIPART_FORM_DATA)
+                .addBinaryBody("file", file, ContentType.APPLICATION_OCTET_STREAM, file.getName());
+
+        for (Map.Entry<String, String> entry : formData.entrySet()) {
+            multipartEntityBuilder.addTextBody(entry.getKey(), entry.getValue(), ContentType.MULTIPART_FORM_DATA);
+        }
+
+        return multipartEntityBuilder.build();
     }
 }

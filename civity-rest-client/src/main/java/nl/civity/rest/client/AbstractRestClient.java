@@ -28,6 +28,7 @@
  */
 package nl.civity.rest.client;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -62,9 +63,12 @@ public abstract class AbstractRestClient implements RestClient {
     }
 
     @Override
+    public String postHttpFile(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, File file, Map<String, String> formData) throws RestClientException {
+        return this.postHttpFile(uri, headers, parameters, new int[]{expectedReturnCode}, file, formData);
+    }
+
+    @Override
     public String putHttp(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, String body) throws RestClientException {
         return this.putHttp(uri, headers, parameters, new int[]{expectedReturnCode}, body);
     }
-    
-    
 }

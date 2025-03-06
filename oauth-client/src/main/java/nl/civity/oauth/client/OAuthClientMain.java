@@ -46,14 +46,14 @@ public class OAuthClientMain {
      */
     public static void main(String[] args) {
         OAuthClientDescription oAuthClientDescription = new OAuthClientDescription(
-                "https://localhost:8443/auth/",
-                "oauth_client_test_private",
-                "udxyCnheSoMVpqTE5Vq8XHHIJLkHxla2"
+                "http://localhost:5556/auth/",
+                "signals",
+                "insecure"
         );
 
         UsernamePasswordOAuthClient usernamePasswordOAuthClient = oAuthClientDescription.createUsernamePasswordOAuthClient(
-                "fredrik",
-                "qwerty1024"
+                "admin",
+                "password"
         );
 
         try {

@@ -28,6 +28,7 @@
  */
 package nl.civity.rest.client;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -95,7 +96,20 @@ public interface RestClient {
     String postHttpFormData(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, Map<String, String> formData) throws RestClientException;
 
     /**
-     * Put HTTP request with a STring payload and a list of possible return codes
+     * Post HTTP request with file plus form data payload and a list of possible return codes
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCodes
+     * @param file
+     * @param formData
+     * @return
+     * @throws RestClientException
+     */
+    public abstract String postHttpFile(String uri, Map<String, String> headers, Map<String, String> parameters, int[] expectedReturnCodes, File file, Map<String, String> formData) throws RestClientException;
+
+    /**
+     * Put HTTP request with a String payload and a list of possible return codes
      * @param uri
      * @param headers
      * @param parameters
@@ -160,9 +174,22 @@ public interface RestClient {
      * @param expectedReturnCode
      * @param formData
      * @return
-     * @throws RestClientException 
+     * @throws RestClientException
      */
     String postHttpFormData(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, Map<String, String> formData) throws RestClientException;
+
+    /**
+     * Post HTTP request with a form data payload and one possible return code
+     * @param uri
+     * @param headers
+     * @param parameters
+     * @param expectedReturnCode
+     * @param file
+     * @param formData
+     * @return
+     * @throws RestClientException
+     */
+    String postHttpFile(String uri, Map<String, String> headers, Map<String, String> parameters, int expectedReturnCode, File file, Map<String, String> formData) throws RestClientException;
 
     /**
      * Put HTTP request with a String payload and one possible return code
